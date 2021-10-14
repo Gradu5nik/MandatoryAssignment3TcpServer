@@ -40,11 +40,13 @@ namespace MandatoryAssignment3TcpServer
         {
             using (HttpClient client = new HttpClient())
             {
-                JsonContent bookToPost = JsonContent.Create(bookJson);
+                //JsonContent bookToPost = JsonContent.Create(bookJson);
+                var bookToPost = new StringContent(bookJson, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await
                     client.PostAsync("http://localhost:22887/api/Books/", bookToPost);
                 Book res = await
                     response.Content.ReadFromJsonAsync<Book>();
+                
                 return res;
             }
         }
@@ -52,7 +54,9 @@ namespace MandatoryAssignment3TcpServer
         {
             using (HttpClient client = new HttpClient())
             {
-                JsonContent bookToPut = JsonContent.Create(bookJson);
+
+                //JsonContent bookToPut = JsonContent.Create(bookJson);
+                var bookToPut = new StringContent(bookJson, Encoding.UTF8, "application/json");
                 Book updatedBook = JsonConvert.DeserializeObject<Book>(bookJson);
                 HttpResponseMessage response = await
                     client.PutAsync("http://localhost:22887/api/Books/" + updatedBook.ISBN13, bookToPut);
